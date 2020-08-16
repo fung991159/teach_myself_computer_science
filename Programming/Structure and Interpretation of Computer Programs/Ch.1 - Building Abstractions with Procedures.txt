@@ -3,7 +3,8 @@
 
 Comment:
     1. Math is a declarative knowledge (what is), while computer science is imperative knowledge (how to)
-    2. good to know about applicative-order and normal order evaluation. 
+    2. applicative-order evaluation: all parameters are evaluated before procedure is executed
+       normal order evaluation: parameters are evaluated when needed (lazy)
     Though not sure if modern interpreter still have this difference, Python should be normal order (lazy) though.
     3. It is crucial that each procedure can be use as a module in defining other procedure (Unix philosophy?), a procedure should be a black-box to user.
     for the same reason why variable should be kept local when possible, so that a procedure can be independent of outside changes.
