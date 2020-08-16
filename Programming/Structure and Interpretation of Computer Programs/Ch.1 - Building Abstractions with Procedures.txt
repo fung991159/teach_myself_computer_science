@@ -1,3 +1,18 @@
+">>" my attempt to the Exercise
+"!" after peeking answer :) from http://community.schemewiki.org/?sicp-solutions
+
+Comment:
+    1. Math is a declarative knowledge (what is), while computer science is imperative knowledge (how to)
+    2. good to know about applicative-order and normal order evaluation. 
+    Though not sure if modern interpreter still have this difference, Python should be normal order (lazy) though.
+    3. It is crucial that each procedure can be use as a module in defining other procedure (Unix philosophy?), a procedure should be a black-box to user.
+    for the same reason why variable should be kept local when possible, so that a procedure can be independent of outside changes.
+    4. Free and bound variable is kind of upside down to me for some reason?
+        bound-variable: procedure bind a variable such that setting a variable as xyz or abc doesn't really matter
+        free-variable: free as in the variable is defined outside of current procedure, so cannot rename it as it is defined by other procedure
+    5. block structure: nesting of defining procedure; defining procedure within procedure, so that the name only exist within a procedure.
+       lexical scoping: a variable that purposely set to be free internal defintion to avoid passing around. which is a general local function scoping / class variable?
+
 Exercise 1.1. Below is a sequence of expressions. What is the result printed by the interpreter in response
 to each expression? Assume that the sequence is to be evaluated in the order in which it is presented.
 10
@@ -86,3 +101,77 @@ the consequent or the alternative expression.)
 >> applicactive-order evaluation would stuck in function p forever, as it will be keep calling itself recursively
 >> normal-order evaluation would go through, with x being 0 then in if statment
 and return 0
+
+
+Exercise 1.6. Alyssa P. Hacker doesn't see why if needs to be provided as a special form. ``Why can't I
+just define it as an ordinary procedure in terms of cond?'' she asks. Alyssa's friend Eva Lu Ator claims
+this can indeed be done, and she defines a new version of if:
+(define (new-if predicate then-clause else-clause)
+(cond (predicate then-clause)
+(else else-clause)))
+Eva demonstrates the program for Alyssa:
+(new-if (= 2 3) 0 5)
+5
+(new-if (= 1 1) 0 5)
+0
+Delighted, Alyssa uses new-if to rewrite the square-root program:
+(define (sqrt-iter guess x)
+(new-if (good-enough? guess x)
+guess
+(sqrt-iter (improve guess x)
+x)))
+What happens when Alyssa attempts to use this to compute square roots? Explain.
+>> looks like it will work as before..
+! hmm, so "new-if" will actually turn the function from normal order evaluation into 
+! applicative order evaluation (because it isn't "special form"). That's pretty eye widening
+! hence back to the square-root program, new-if will be in an infinite loop again 
+! since "sqrt-iter" is in the false condition.
+
+Exercise 1.7. The good-enough? test used in computing square roots will not be very effective for
+finding the square roots of very small numbers. Also, in real computers, arithmetic operations are almost
+always performed with limited precision. This makes our test inadequate for very large numbers. Explain
+these statements, with examples showing how the test fails for small and large numbers. An alternative
+strategy for implementing good-enough? is to watch how guess changes from one iteration to the
+next and to stop when the change is a very small fraction of the guess. Design a square-root procedure that
+uses this kind of end test. Does this work better for small and large numbers?
+>> if x is a very small, say 0.00001. the procuedre "improve guess" will return a very large number
+>> however if x is very large, say 1000000, the procedure
+>> procedure to monitor changes in guess number
+>> # define a new functino monitor guess to get the changes between old nad new guess
+(define (monitor guess) old_guess new_guess
+        (if (> (/ old_guess new_guess) 0.99)  # if changes is less than or equal to 1 %
+        True
+        False
+)
+    # replace good-enough? with "monitor guess"
+    (define (sqrt-iter guess x)
+        if ( monitor guess
+        (sqrt-iter (improve guess x)
+        guess
+        )
+        guess
+        (sqrt-iter (improve guess x)
+                    x)))
+! for small number square root the tolerance is too large
+! so it only takes good-enough? to make improve guess equal to guess (there are no more improvement can be made)
+! (define (good-enough? guess x) 
+!   (= (improve guess x) guess)) 
+
+Exercise 1.8. Newton's method for cube roots is based on the fact that if y is an approximation to the cube
+root of x, then a better approximation is given by the value
+Use this formula to implement a cube-root procedure analogous to the square-root procedure. (In
+section 1.3.4 we will see how to implement Newton's method in general as an abstraction of these square-
+root and cube-root procedures.)
+
+>> basically this is translation of the "improve" part square root to cube root
+(define (cube_improve guess x)
+    (/
+        (+ (/ x 
+        (square guess)
+            ) (* 2 guess)
+        )
+        3
+    )
+)
+! this part is correct, hurray!
+
