@@ -275,3 +275,63 @@ function based on Lambert's formula. K specifies the number of terms to compute,
    (lambda (i) (if (= i 1) x (* x x -1)))
    (lambda (i) (- (* 2.0 i) 1))
    k))
+
+
+Exercise 1.40. Define a procedure cubic that can be used together with the newtons-method
+procedure in expressions of the form
+(newtons-method (cubic a b c) 1)
+to approximate zeros of the cubic x3 + ax2 + bx + c.
+
+>> should be like so
+(define (cubic a b c)
+  (lambda (x) (+ (* x x x)
+                 (* a x x)
+                 (* b x)
+                  c)
+    )
+)
+
+
+Exercise 1.41. Define a procedure double that takes a procedure of one argument as argument and
+returns a procedure that applies the original procedure twice. For example, if inc is a procedure that adds
+1 to its argument, then (double inc) should be a procedure that adds 2. What value is returned by
+(((double (double double)) inc) 5)
+
+>> this is kind of tricky, I did fall into the trap of multiply the return value of function by two, 
+>> turn out it should be passing the return value of the original function and run it again
+>> (((double (double double)) inc) 5) produces "21"
+
+(define (double f) 
+  (lambda (x) (
+    f (f x)
+    )
+  )
+)
+
+
+Exercise 1.42. Let f and g be two one-argument functions. The composition f after g is defined to be the
+function x
+ f(g(x)). Define a procedure compose that implements composition. For example, if inc is a
+procedure that adds 1 to its argument,
+((compose square inc) 6)
+49
+
+>> this is almost the same as ex. 1.41, but the middle part is a 
+>> function call of the returned value, instead of returning a procedure
+(define (compose f g)
+  (lambda (x)
+    (f (g x))
+  )
+)
+
+
+Exercise 1.43. If f is a numerical function and n is a positive integer, then we can form the nth repeated
+application of f, which is defined to be the function whose value at x is f(f(...(f(x))...)). For example, if
+f is the function x x + 1, then the nth repeated application of f is the function x x + n. If f is the
+operation of squaring a number, then the nth repeated application of f is the function that raises its
+argument to the 2nth power. Write a procedure that takes as inputs a procedure that computes f and a
+positive integer n and returns the procedure that computes the nth repeated application of f. Your procedure
+should be able to be used as follows:
+((repeated square 2) 5)
+625
+Hint: You may find it convenient to use compose from exercise 1.42.
