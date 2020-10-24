@@ -1,0 +1,73 @@
+Comment:
+    1. Data abstraction: a methodology that enables us to isolate how
+    a compound data object is used from the details of how it is constructed from more primitive data objects.
+
+    2. closure - a attributes of compounded data that any elements be composed of itself.
+    i.e. one of the elements of a pair can in turn be another pair.
+
+Exercise 2.1. Define a better version of make-rat that handles both positive and negative arguments.
+Make-rat should normalize the sign so that if the rational number is positive, both the numerator and
+denominator are positive, and if the rational number is negative, only the numerator is negative.
+
+>> this is easy to implement in python, but I am struggling with Scheme Syntax..
+! it is clever to use keep the sign in a variable, i need to further study math
+
+(define (make-rat n d)
+  (let ((g (gcd n d))
+        (denom-sign (if (> d 0) 1 (- 1))))
+    (cons (* (/ n g) denom-sign)
+          (* (/ d g) denom-sign))))
+
+
+Exercise 2.2. Consider the problem of representing line segments in a plane. Each segment is represented
+as a pair of points: a starting point and an ending point. Define a constructor make-segment and
+selectors start-segment and end-segment that define the representation of segments in terms of
+points. Furthermore, a point can be represented as a pair of numbers: the x coordinate and the y coordinate.
+Accordingly, specify a constructor make-point and selectors x-point and y-point that define this
+representation. Finally, using your selectors and constructors, define a procedure midpoint-segment
+that takes a line segment as argument and returns its midpoint (the point whose coordinates are the average
+of the coordinates of the endpoints). To try your procedures, you'll need a way to print points:
+(define (print-point p)
+  (newline)
+  (display "(")
+  (display (x-point p))
+  (display ",")
+  (display (y-point p))
+  (display ")"))
+
+>>> should be as below, take a bit of effort to check the syntax instead of the logic
+>>> however, i never need to use print-point somehow
+
+(define (start-segment segment) (car segment))
+(define (end-segment segment) (cdr segment))
+(define (make-segment start-point end-point)
+  (cons start-point end-point)
+)
+(define (make-point x y)
+  (cons x y)
+)
+(define (x-point point) (car point))
+(define (y-point point) (cdr point))
+
+(define (midpoint-segment line-segment)
+  (let ((avg (lambda (x y) (/ (+ x y) 2))))
+    (cons
+      (avg (x-point (start-segment line-segment)) (x-point (end-segment line-segment)))
+      (avg (y-point (start-segment line-segment)) (y-point (end-segment line-segment)))
+    )
+  )
+)
+
+(midpoint-segment 
+  (make-segment 
+    (make-point 2 6)
+    (make-point 8 19)
+  )
+)
+
+Exercise 2.3. Implement a representation for rectangles in a plane. (Hint: You may want to make use of
+exercise 2.2.) In terms of your constructors and selectors, create procedures that compute the perimeter and
+the area of a given rectangle. Now implement a different representation for rectangles. Can you design
+your system with suitable abstraction barriers, so that the same perimeter and area procedures will work
+using either representation?
+
