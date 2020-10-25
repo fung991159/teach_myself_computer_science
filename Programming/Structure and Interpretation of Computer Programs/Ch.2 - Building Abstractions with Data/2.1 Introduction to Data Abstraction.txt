@@ -38,16 +38,18 @@ of the coordinates of the endpoints). To try your procedures, you'll need a way 
 >>> should be as below, take a bit of effort to check the syntax instead of the logic
 >>> however, i never need to use print-point somehow
 
-(define (start-segment segment) (car segment))
-(define (end-segment segment) (cdr segment))
-(define (make-segment start-point end-point)
-  (cons start-point end-point)
-)
 (define (make-point x y)
   (cons x y)
 )
 (define (x-point point) (car point))
 (define (y-point point) (cdr point))
+
+(define (make-segment start-point end-point)
+  (cons start-point end-point)
+)
+(define (start-segment segment) (car segment))
+(define (end-segment segment) (cdr segment))
+
 
 (define (midpoint-segment line-segment)
   (let ((avg (lambda (x y) (/ (+ x y) 2))))
@@ -71,3 +73,126 @@ the area of a given rectangle. Now implement a different representation for rect
 your system with suitable abstraction barriers, so that the same perimeter and area procedures will work
 using either representation?
 
+>>> #1st implementation, rectangle is composed by two segements,
+>>> which inturn made up of 3 points, since the fourth points is irrelvant
+! omg, my solution is so naive compare to codology, he even factored in angle!
+
+(define (get_segment_length line-segment)
+  ; get distance between two recentagle point,
+  ; get only non-zero pane
+  (let (
+    (x_length (abs (- (x-point (start-segment line-segment)) (x-point (end-segment line-segment)))))
+    (y_length (abs (- (y-point (start-segment line-segment)) (y-point (end-segment line-segment)))))
+    )
+    (if (= x_length 0)
+      y_length
+      x_length
+    )
+  )
+)
+
+(define (make_rect length-segment width-segment)
+  (cons length-segment width-segment)
+)
+(define (get_rect_length rect)
+  (get_segment_length (car rect))
+)
+(define (get_rect_width rect)
+  (get_segment_length (cdr rect))
+)
+(define (compute_rect rect)
+  (let (
+       (rect_length (get_rect_length rect))
+       (rect_width (get_rect_width rect))
+    )
+    (display 'recentagle_area:)
+    (display (* rect_length rect_width))
+    (newline)
+    ; (display ' )
+    (display 'recentagle_perimeter:)
+    (display (* 2 (+ rect_length rect_width)))
+  )
+)
+
+(compute_rect 
+  (make_rect
+    (make-segment (make-point 1 2) (make-point 10 2))
+      (make-segment (make-point 1 2) (make-point 1 6)
+  )
+)
+
+
+Exercise 2.4. Here is an alternative procedural representation of pairs. For this representation, verify that
+(car (cons x y)) yields x for any objects x and y.
+(define (cons x y)
+  (lambda (m) (m x y)))
+(define (car z)
+  (z (lambda (p q) p)))
+What is the corresponding definition of cdr? (Hint: To verify that this works, make use of the substitution
+model of section 1.1.5.)
+
+>> This obviously isn't a useful procedure but very good in understanding how 
+>> procedure get pass around, it is brilliant.
+
+(define (cons x y)
+  (lambda (m) (m x y))) ; return a procedure take m func as arg, and execute it value x, y
+(define (car z)
+  (z (lambda (p q) p)))
+(define (cdr z)
+  (z (lambda (p q) q))) ; return second arg and excute it with z parameter
+
+(cdr (cons 1 2))
+(cdr (lambda (m) (m 1 2)))
+(lambda (m) (m 1 2)) (lambda (p q) p)
+hence (lambda (p q) p) will take 1, 2 as arguement
+
+
+Exercise 2.5. Show that we can represent pairs of nonnegative integers using only numbers and arithmetic
+operations if we represent the pair a and b as the integer that is the product 2a 3b. Give the corresponding
+definitions of the procedures cons, car, and cdr.
+
+>> not quite sure what the question is asking for..
+(define (cons a b)
+  (lambda (m) (m (expt 2 a) (expt 3 b))) 
+(define (car z)
+  (z (lambda (p q) p)))
+(define (cdr z)
+  (z (lambda (p q) q))) 
+
+
+Exercise 2.6. In case representing pairs as procedures wasn't mind-boggling enough, consider that, in a
+language that can manipulate procedures, we can get by without numbers (at least insofar as nonnegative
+integers are concerned) by implementing 0 and the operation of adding 1 as
+(define zero (lambda (f) (lambda (x) x)))
+  (define (add-1 n)
+    (lambda (f) (lambda (x) (f ((n f) x)))))
+This representation is known as Church numerals, after its inventor, Alonzo Church, the logician who
+invented the calculus.
+Define one and two directly (not in terms of zero and add-1). (Hint: Use substitution to evaluate
+(add-1 zero)). Give a direct definition of the addition procedure + (not in terms of repeated
+application of add-1).
+
+
+>>> did some note to clairfy on the function, though
+>>> couldn't go further
+
+(define zero (lambda (f) (lambda (x) x))) 
+; zero will return a procedure that take argument f,
+; and itself a lambda that take argument x, and return arg x itself
+
+(define (add-1 n)
+(lambda (f) (lambda (x) (f ((n f) x)))))
+; add-1 take argument n will return a procedure that take argument f,
+; and itself a lambda that take argument x, 
+; which first excute arg n as function with value f
+; the resulting function execute with value x
+; finally execute function f with previous result
+
+(define (add-1 zero)
+(lambda (f) (lambda (x) (f ((zero f) x)))))
+(lambda (f) (lambda (x) (f ((lambda (x) x) x))))
+(lambda (f) (lambda (x) (f x))) 
+
+!!! 
+(define one (lambda (f) (lambda (x) (f x)))) 
+(define two (lambda (f) (lambda (x) (f (f x)))))
