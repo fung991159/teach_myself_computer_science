@@ -296,17 +296,111 @@ binary mobile using compound data by constructing it from two branches (for exam
 A branch is constructed from a length (which must be a number) together with a structure, which
 may be either a number (representing a simple weight) or another mobile:
 (define (make-branch length structure)
-(list length structure))
+  (list length structure))
 a. Write the corresponding selectors left-branch and right-branch, which return the branches of a
 mobile, and branch-length and branch-structure, which return the components of a branch.
+(define (left-branch mobile)
+  (car mobile)
+)
+
+(define (right-branch mobile)
+  (car (cdr mobile))
+)
+
+(define (branch-length branch)
+  (car branch)
+)
+
+(define (branch-structure branch)
+  (car (cdr branch))
+)
+
+
 b. Using your selectors, define a procedure total-weight that returns the total weight of a mobile.
+>> my try, so total-weight will:
+1. return 0 if input is null
+2. (in branch level) return weight if input is a single element and is integer type,
+  otherwise it is another mobile and apply total-weight again
+
+
+(define (total-weight x)
+  (cond ((null? x) 0)
+        (if (not (pair? x)) (integer? x)) ;; if weight, return the weight, else it is mobile, then apply total-weight again
+          (branch-structure x)) 
+          (total-weight x)
+        (else (+ (total-weight (left-branch x))
+              (total-weight (right-branch x))))
+)
+
+!! hmm, i actually over think a bit, but was in right direction at least
+!! this is written in a very concise way
+
+(define (branch-weight branch)
+    (if (pair? (branch-structure branch))
+        (total-weight (branch-structure branch))
+        (branch-structure branch)))
+
+(define (total-weight mobile)
+    (+ (branch-weight (left-branch mobile))
+       (branch-weight (right-branch mobile))))
+
+
 c. A mobile is said to be balanced if the torque applied by its top-left branch is equal to that applied by its
 top-right branch (that is, if the length of the left rod multiplied by the weight hanging from that rod is equal
 to the corresponding product for the right side) and if each of the submobiles hanging off its branches is
 balanced. Design a predicate that tests whether a binary mobile is balanced.
+
+>> my attempt on the question,
+it has been made easy due to previously abstractino on branch
+
+(define (torque l w)
+  (* l w)
+)
+
+(define (balance? mobile)
+  (if (= (torque (branch-length (left-branch mobile))
+                 (branch-weight (left-branch mobile)))
+         (torque (branch-length (right-branch mobile))
+                 (branch-weight (right-branch mobile)))
+      )
+      #t
+      #f
+  )  
+)
+
+!! looks like I forgot about sub branch balance
+!! both the first level branch and the mobile object in structure
+!! also need to be balance.
+
+(define (torque branch)
+    (* (branch-length branch)
+       (branch-weight branch)))
+
+(define (balanced? mobile)
+    (and (= (torque (left-branch mobile))
+            (torque (right-branch mobile)))
+         (if (pair? (branch-structure (left-branch mobile)))
+             (balanced? (branch-structure (left-branch mobile)))
+             true)
+         (if (pair? (branch-structure (right-branch mobile)))
+             (balanced? (branch-structure (right-branch mobile)))
+             true)))
+
+
 d. Suppose we change the representation of mobiles so that the constructors are
 (define (make-mobile left right)
-(cons left right))
+  (cons left right))
 (define (make-branch length structure)
-(cons length structure))
+  (cons length structure))
 How much do you need to change your programs to convert to the new representation?
+
+>> this is essentially a question on difference between list and cons 
+>> and how the selector need to change, abstraction is here to save the day
+
+(define (right-branch mobile)
+  (cdr mobile)
+)
+
+(define (branch-structure branch)
+  (cdr branch)
+)
