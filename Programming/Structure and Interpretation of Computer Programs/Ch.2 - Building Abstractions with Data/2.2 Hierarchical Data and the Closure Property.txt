@@ -6,7 +6,7 @@ Comment:
       then apply the function to all its elements
     4. a hierachical structures can be formed from a list by using lists of list,
     the inner list is the lower hierachy one
-    
+
 Exercise 2.17. Define a procedure last-pair that returns the list that contains only the last element of a
 given (nonempty) list:
 (last-pair (list 23 72 149 34))
@@ -272,8 +272,6 @@ x
 
 
 (define (deep-reverse x)
-  (display x)
-  (newline)
   (cond ((null? x) '())
         ((pair? x)
          (append 
@@ -286,11 +284,11 @@ list whose elements are all the leaves of the tree arranged in left-to-right ord
 
 !! as more I read, I found myself does not understand recursion too well 
 
-
-(define (fringe l)
-  (cond ((null? l) ''() )
-        ((pair? (car l)) (append (fringe (car l)) (fringe (cdr l))))
-        (else (cons (car l) (fringe (cdr l))))))
+(define (fringe tree)
+  (cond ((null? tree) null)
+        ((not (pair? tree)) (list tree))
+        (else (append (fringe (car tree))
+                      (fringe (cdr tree))))))
 
 
 Exercise 2.29. A binary mobile consists of two branches, a left branch and a right branch. Each branch is a
@@ -409,3 +407,30 @@ How much do you need to change your programs to convert to the new representatio
 (define (branch-structure branch)
   (cdr branch)
 )
+
+
+Exercise 2.30. Define a procedure square-tree analogous to the square-list procedure of
+exercise 2.21. That is, square-list should behave as follows:
+(square-tree
+(list 1
+(list 2 (list 3 4) 5)
+(list 6 7)))
+(1 (4 (9 16) 25) (36 49))
+
+Define square-tree both directly (i.e., without using any higher-order procedures) and also by using
+map and recursion.
+>> This is rather easy, just a little bit change from original code
+>> direct version
+(define (square-tree tree)
+  (cond ((null? tree) '() )
+        ((not (pair? tree)) (* tree tree))
+        (else (cons (square-tree (car tree))
+                    (square-tree (cdr tree))))))
+
+>> map and recursion version 
+(define (square-tree tree)
+  (map (lambda (sub-tree)
+        (if (pair? sub-tree)
+            (square-tree sub-tree)
+            (* sub-tree sub-tree)))
+            tree))
