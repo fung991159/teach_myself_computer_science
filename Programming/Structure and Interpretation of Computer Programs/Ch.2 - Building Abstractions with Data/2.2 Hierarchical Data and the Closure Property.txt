@@ -1,7 +1,12 @@
 Comment:
     1. closure (mentioned again) - a attributes of compounded data that any elements be composed of itself.
     i.e. one of the elements of a pair can in turn be another pair.
-
+    2. a list is simply a chain of cons object
+    3. a map function is a higer order function that take a fuction and a list,
+      then apply the function to all its elements
+    4. a hierachical structures can be formed from a list by using lists of list,
+    the inner list is the lower hierachy one
+    
 Exercise 2.17. Define a procedure last-pair that returns the list that contains only the last element of a
 given (nonempty) list:
 (last-pair (list 23 72 149 34))
