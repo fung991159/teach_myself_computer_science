@@ -6,6 +6,8 @@ Comment:
       then apply the function to all its elements
     4. a hierachical structures can be formed from a list by using lists of list,
     the inner list is the lower hierachy one
+    5. express programm as a conventional interface (as list in the example), allows for mix-and-match
+    use of different function. Hence modularity.
 
 Exercise 2.17. Define a procedure last-pair that returns the list that contains only the last element of a
 given (nonempty) list:
@@ -452,3 +454,79 @@ that square-tree could be defined as
           (ops sub-tree)))
           tree))
 )
+
+
+Exercise 2.32. We can represent a set as a list of distinct elements, and we can represent the set of all
+subsets of the set as a list of lists. For example, if the set is (1 2 3), then the set of all subsets is (()
+(3) (2) (2 3) (1) (1 3) (1 2) (1 2 3)). Complete the following definition of a procedure
+that generates the set of subsets of a set and give a clear explanation of why it works:
+(define (subsets s)
+  (if (null? s)
+    (list '() )
+    (let ((rest (subsets (cdr s))))
+      (append rest (map <??> rest)))))
+
+
+!! can't think of anything for this. The usage of lambda is brilliant,
+!! make me wonder who thought of this in the first place
+
+(define (subsets s)
+   (if (null? s)
+       (list null)
+       (let ((rest (subsets (cdr s))))
+          (append rest (map (lambda (x) (cons (car s) x))
+                            rest)))))
+
+
+Exercise 2.33. Fill in the missing expressions to complete the following definitions of some basic list-
+manipulation operations as accumulations:
+
+(define (accumulate op initial sequence)
+  (if (null? sequence)
+    initial
+    (op (car sequence)
+        (accumulate op initial (cdr sequence)))))
+
+(define (map p sequence)
+  (accumulate (lambda (x y) <??>) nil sequence))
+>> (accumulate (lambda (x y) p) nil sequence))
+
+(define (append seq1 seq2)
+  (accumulate cons <??> <??>))
+>> (accumulate cons seq2 seq1)
+
+(define (length sequence)
+  (accumulate <??> 0 sequence))
+!! (accumulate (lambda (x y) (+ 1 y) 0 sequence))
+!! this is a very creative way to count the level of stack
+!! it will never care what is the "car sequence", only 
+!! the result of accumulate
+
+
+Exercise 2.34. Evaluating a polynomial in x at a given value of x can be formulated as an accumulation.
+We evaluate the polynomial
+using a well-known algorithm called Horner's rule, which structures the computation as
+In other words, we start with an, multiply by x, add an-1, multiply by x, and so on, until we reach a0.16 Fill
+in the following template to produce a procedure that evaluates a polynomial using Horner's rule. Assume
+that the coefficients of the polynomial are arranged in a sequence, from a0 through an.
+(define (horner-eval x coefficient-sequence)
+  (accumulate 
+    (lambda (this-coeff higher-terms) <??>)
+    0
+    coefficient-sequence))
+For example, to compute 1 + 3x + 5x3 + x5 at x = 2 you would evaluate
+(horner-eval 2 (list 1 3 0 5 0 1))
+
+>> this is a little tricky, I got the programming part right,
+>> without really understand how the math part works
+
+(define (horner-eval x coefficient-sequence)
+  (accumulate 
+    (lambda (this-coeff higher-terms) (+ (* x higher-terms) this-coeff))
+    0
+    coefficient-sequence))
+
+
+Exercise 2.35. Redefine count-leaves from section 2.2.2 as an accumulation:
+(define (count-leaves t)
+  (accumulate <??> <??> (map <??> <??>)))
