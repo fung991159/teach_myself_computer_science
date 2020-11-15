@@ -519,6 +519,7 @@ For example, to compute 1 + 3x + 5x3 + x5 at x = 2 you would evaluate
 
 >> this is a little tricky, I got the programming part right,
 >> without really understand how the math part works
+>> the function accumulate
 
 (define (horner-eval x coefficient-sequence)
   (accumulate 
@@ -530,3 +531,23 @@ For example, to compute 1 + 3x + 5x3 + x5 at x = 2 you would evaluate
 Exercise 2.35. Redefine count-leaves from section 2.2.2 as an accumulation:
 (define (count-leaves t)
   (accumulate <??> <??> (map <??> <??>)))
+
+!! can't think of this myself, need to peek at the answer and write my own.
+!! I was stuck by why need to apply a map func to "filter" the sequence,
+!! turn out it is the part where recursive happen
+!! the map part just return 1 for any value, also "flatten" the list by recursion
+
+(define (count-leaves t)
+    (accumulate 
+      +
+      0 
+      (map 
+        (lambda (node) 
+          (if (pair? node)
+            (count-leaves node)
+            1
+          )
+        )
+        t))
+)
+
