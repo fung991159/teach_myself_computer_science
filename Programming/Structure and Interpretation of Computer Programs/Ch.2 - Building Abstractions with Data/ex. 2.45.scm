@@ -12,3 +12,9 @@
             (let ((smaller (up-split painter (- n 1))))
             (a painter (b smaller smaller))))))
 ; !! can name the variable better, a should be identity, b should be smaller
+(define (split identity-ops smaller-ops)
+    (lambda (painter n)
+        (if (= n 0)
+            painter
+            (let ((smaller (up-split painter (- n 1))))
+            (identity-ops painter (smaller-ops smaller smaller))))))
