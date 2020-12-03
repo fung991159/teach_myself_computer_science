@@ -47,3 +47,13 @@
   )
 )
 
+; >> using beside and procedure from 2.50
+; >> I can only produce pesudo code for this, it is easier than I expected though :(
+(define (below2 painter1 painter2)
+  (rotate90 
+    (beside (rotate270 painter1) 
+            (rotate270 painter2))))
+
+; ! I thought of rotating the resultant painter individually after beside,
+; ! never thought it could be done together.
+
