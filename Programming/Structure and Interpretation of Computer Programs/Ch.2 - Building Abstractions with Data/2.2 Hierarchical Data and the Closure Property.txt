@@ -8,6 +8,10 @@ Comment:
     the inner list is the lower hierachy one
     5. express programm as a conventional interface (as list in the example), allows for mix-and-match
     use of different function. Hence modularity.
+    6. stratified design: complex system should be built with sequence of level,
+    each level is contstructed by combining parts that is pr8imitive at that level,
+    and parts constructed is then used in next level.
+    This makes the program robust, small change require only small change in program.
 
 Exercise 2.17. Define a procedure last-pair that returns the list that contains only the last element of a
 given (nonempty) list:
@@ -664,3 +668,5 @@ and fold-left from exercise 2.38:
   (fold-right (lambda (x y) (append y (list x))) '() sequence))
 (define (reverse sequence)
   (fold-left (lambda (x y) (cons y x)) '() sequence))
+
+
