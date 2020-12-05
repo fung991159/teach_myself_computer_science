@@ -9,8 +9,8 @@
 ; this idea, implement equal? as a procedure.36
 
 (define (equal? a b)
-    (display "a val:'") (display a) (newline)
-    (display "b val:'") (display b) (newline)
+    ; (display "a val:'") (display a) (newline)
+    ; (display "b val:'") (display b) (newline)
     (newline)
     (cond 
           ((or (null? a) (null? b)) #t) ; base case can be true as it is "and" operator 
