@@ -27,3 +27,5 @@
 ; addition. Can you design appropriate predicates, selectors, and constructors for this notation such that our
 ; derivative program still works?
 
+; >> can't figure out this one, there is solution onlien that is very complicated,
+; >> will skip one for now.
