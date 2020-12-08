@@ -38,3 +38,9 @@
 ; element-of-set? and intersection-set will be way slower since now the set/list is 
 ; much longer than before with duplciate
 
+
+; ! surprisingly the solution isn't one sided, it seems allowing duplicate is as
+; ! efficient as no duplicate version, except the latter one save more space
+; ! I have thought this unorthdox implementation of duplicate set would be 
+; ! universally condemned lol
+
