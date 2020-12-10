@@ -1,2 +1,4 @@
 Comment:
-    1. 
+    1. set is a collection of distinct object
+    2. a ordered set is faster than an unordered one by factor of n/2
+    
