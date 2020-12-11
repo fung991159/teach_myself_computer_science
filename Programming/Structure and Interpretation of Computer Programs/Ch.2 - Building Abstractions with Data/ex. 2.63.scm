@@ -47,4 +47,4 @@
 ;b. Do the two procedures have the same order of growth in the number of steps required to convert a
 ; balanced tree with n elements to a list? If not, which one grows more slowly?
 ;>>  recusive one would use more memory to store the state, and require more steps
-;>> to sort out the previous stored state once it reach the "bottom"
+;>> to sort out the previous stored state once it reach the "bottom" 
