@@ -5,8 +5,13 @@
 ; tree to list first
 
 (define (lookup given-key set-of-records)
-  (let (list-of-records (tree->list2 set-of-records))
-  (cond ((null? list-of-records) #f)
-        ((= given-key (key (car list-of-records)) (car list-of-records))
-        ((< given-key (key (car list-of-records)) #f)
-        (else (lookup given-key (cdr list-of-records))))))
+  (let entry-key (key (car set-of-records))
+    (cond ((null? list-of-records) #f)
+            ((= given-key entry-key)
+                (car set-of-records))
+            ((< given-key entry-key)
+                (lookup given-key (left-branch set-of-records)))
+            ((> given-key entry-key)
+                (lookup given-key (right-branch set-of-records))
+            ))))
+
