@@ -22,3 +22,5 @@
 
 ; >> the implication is bits size increased only by 1, even when n doubled?
 ; >> looks like another theata log n thing
+
+; ! since the tree is unbalnced (each level only has two node), so each additional n will cost 1 bit
