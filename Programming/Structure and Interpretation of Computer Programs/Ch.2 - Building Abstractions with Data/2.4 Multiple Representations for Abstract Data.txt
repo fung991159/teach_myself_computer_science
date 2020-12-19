@@ -1,0 +1,11 @@
+Comment:
+    1. data abstraction barriers not only should isolate representation from use,
+       it also need to cater for different disign choice. Permitting programmers to 
+       incorporate modules additively.
+    2. generic procedure - procedure that operate on data that may be represented
+       in more than one way. tagging data is a common way to do it
+    3. dispatch on type - a dispatch table that with "operation" and "type" as row/columns. the content is the
+       procedure.
+    4. message passing - when operation name is passed around as a "message" (to activate which procedure),
+       it seems the authors favour dispatch/ data-oreient-programmin though.
+   
