@@ -14,6 +14,7 @@
 
 
 ; We can regard this program as performing a dispatch on the type of the expression to be differentiated. In this situation the "type tag" of the datum is the algebraic operator symbol (such as +) and the operation being performed is deriv. We can transform this program into data-directed style by rewriting the basic derivative procedure as
+; ! the solution should be number? and variable? have no operator, so it can't be added to the dispatch tabl elike others
 
 (define (deriv exp var)
    (cond ((number? exp) 0)
