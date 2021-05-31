@@ -9,8 +9,7 @@ which the account was created, and should otherwise return a complaint:
 "Incorrect password"
 
 ; >> before dispatching chedck if password is match, if doesn't match then no need proceed further
-
-(define (make-account balance pwd)
+(define (make-account balance password)
   (define (withdraw amount)
     (if (>= balance amount)
         (begin (set! balance (- balance amount))
@@ -19,11 +18,12 @@ which the account was created, and should otherwise return a complaint:
   (define (deposit amount)
     (set! balance (+ balance amount))
     balance)
-  (define (dispatch in-pwd m)
-    (if (not (eq? in-pwd pwd)) (raise "incorect password"))
+  (define (dispatch inpwd m)
+    (if (not (eq? inpwd password))
+        (error "INVALID PASSWORD!")
+    )
     (cond ((eq? m 'withdraw) withdraw)
           ((eq? m 'deposit) deposit)
-          (else (raise "Unknown request -- MAKE-ACCOUNT"
+          (else (error "Unknown request -- MAKE-ACCOUNT"
                        m))))
-
   dispatch)
