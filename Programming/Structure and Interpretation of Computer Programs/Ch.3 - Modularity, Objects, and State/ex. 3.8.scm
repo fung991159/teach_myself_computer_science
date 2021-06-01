@@ -12,20 +12,29 @@
 ; is asking for a stateful function, where it would return the input value only
 ; once (or in between, hence return input value only at 1st, 3rd, 5th call etc)
 
-(define (f)
+(define (f-factory)
   (let ((return-val #t))
     (lambda (num)
-      (display "current state: ") (display return-val) (newline)
+      (display "input num: ") (display num) (newline)
       (if (eq? return-val #t)
         (begin
+          (display "return num: ") (display num) (newline)
           (set! return-val #f)
           num
         )
-        (set! return-val #t)
+        (begin
+          (display "return num: ") (display 0) (newline)
+          (set! return-val #t)
+          0
+        )
       )
 )))
 
-; >> result
-; current state: #t
-; 1
-; current state: #f
+; >> test
+(define f (f-factory))
+(display (+ (f 0) (f 1)))
+; input num: 0
+; return num: 0
+; input num: 1
+; return num: 0
+
