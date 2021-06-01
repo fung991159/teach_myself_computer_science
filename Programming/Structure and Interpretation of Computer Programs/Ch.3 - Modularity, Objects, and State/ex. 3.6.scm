@@ -15,11 +15,11 @@
 
 (define (rand symbol)
   (let ((x random-init))
-    (cond ((= symbol 'generate')
+    (cond ((eq? symbol 'generate')
         (lambda ()
             (set! x (rand-update x))
         x))
-          ((= symbol 'reset')
+          ((eq? symbol 'reset')
             (lambda (new-value)
                 (set! x new-value)
         x))
