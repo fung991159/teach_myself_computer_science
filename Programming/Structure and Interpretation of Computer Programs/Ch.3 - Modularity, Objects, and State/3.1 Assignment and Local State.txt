@@ -1,0 +1,29 @@
+3.1
+Organizational strategy:
+    1. view a large system as collection of distinct objects whose behaviour
+    can change over time. A system is modeled into different type of object.
+    2. streams: focus on the stream of informatoin flow in the system
+
+in OOP we must be concern about how an object can change, yet maintain its identity,
+hence the "environment model" of computation (call stack and all that). Since object
+must keep state over time, calling the same fuction twice can produce different result (
+compare with pure function that has been used so far)
+
+Imperative programming: makes extensive use of assignment
+    a. function is no longer a simple replacmenet model
+    b. order of assignment can change function result
+    c. make everything more complicated than it should, especailly
+    when it comes to concurrent programming
+Fuctional programming: without any use of assignments as in ch.1 and 2. It assume
+everything is immutable, hence variable is just substitution of number.
+
+referentially transparaent: whetheer a language supports the concept of
+equals can be substituted for equals". FP can but OOP cannot.
+in OOP sameness means equal way of evaluation, but the final result depends on the state
+of the object in each run.
+in FP sameness is guaranteed since there is no state
+
+
+
+
+

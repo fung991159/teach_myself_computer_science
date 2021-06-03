@@ -1,0 +1,28 @@
+with variable assignment, now variable is a "place" to store value, instead of a "name" for the value as in FP
+variables are all store in environments, which is a sequence of frame.
+Each frame have many variable, each can have one binding.
+Each frame have pointer to previous frame, unless it is the top-most frame i.e. "global"
+if a variable is not specified in any environment, it is said to be "unbound"
+
+enviornment is super important as evaluation result is base on enviornment binding.
+(i.e. either 1 + 1 can have different result in two env if we "overload" + sign)
+
+in environment model of evaluation, a procedure is always a pair consiting of
+some code and a pointer to an enviornment
+
+To evaluate a combination:
+1. evaluate the subexpression of the combination
+2. apply value of operator subexpression to values of the operand
+subexpression
+
+to apply procedure to arguments, a new env will be created and calculation will perform there,
+if there is another unbinded procedure or parameter, it will look for it in the enclosing env.
+
+Using Frame to store local state:
+the code body (which itself is a lambda) will be evaluated and a procedure created in global env,
+since the procedure is the thing get returned, so it end up in global env.
+but all the evaluation is done in the enclosing env, including stateful attribute / variable.
+
+"closure" is possible because functions are defined in env other than global envrionment,
+when parameter isn't in these env, it becomes free variable that will refer to the value in
+global env (if exist)
