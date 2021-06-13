@@ -19,28 +19,42 @@ and change the data structure.
             ((equal? key (caar records)) (car records))
             (else (assoc key (cdr records)))))
 
-    (define (lookup . keys)
-      (let ((record (assoc keys (cdr local-table))))
-        (if record
-            (cdr record)
-            #f)))
+    (define (lookup keys)
+      (define (iter-lookup keys)
+        (cond ((null? keys) #f)
+              ((not (list? keys)) #f)
+              (else
+                (let ((record (assoc (car keys) (cdr local-table))))
+                  (display record) (newline)
+                  (if record
+                      (cdr record)
+                      (lookup (cdr keys)))))
+      ))
+      (iter-lookup keys)
+    )
 
-    (define (insert! value . keys)
-      (let ((record (assoc keys (cdr local-table))))
-        (if record
-            (set-cdr! record value)
-                  (set-cdr! local-table
-                            (cons (cons keys value)
-                                  (cdr local-table)))))
-      'ok)
+    (define (insert! value keys)
+      (define (iter-insert keys)
+        (let ((record (assoc (car keys) (cdr local-table))))
+          (if record
+              (set-cdr! record value)
+              (set-cdr! local-table
+                        (cons (cons (car keys) value)
+                              (cdr local-table))))
+        (if (not (null? (cdr keys)))
+          (iter-insert (cdr keys)))))
+
+      (iter-insert keys)
+    )
+
 
     (define (dispatch m)
-      (cond ((eq? m 'lookup-proc) lookup)
-            ((eq? m 'insert-proc!) insert!)
+      (cond ((eq? m 'lookup) lookup)
+            ((eq? m 'insert!) insert!)
             (else (error "Unknown operation -- TABLE" m))))
     dispatch))
 
 
 (define m (make-table))
-((m 'insert-proc!) 12 'b 'c)
-(display ((m 'lookup-proc) 'b 'cd))
+((m 'insert!) 12 '(b c d))
+(display ((m 'lookup) '(d)))
