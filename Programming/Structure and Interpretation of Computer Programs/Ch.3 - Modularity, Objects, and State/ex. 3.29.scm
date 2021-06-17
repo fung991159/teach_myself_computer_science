@@ -1,7 +1,6 @@
 Exercise 3.29: Another way to construct an or-gate is as a compound digital
 logic device, built from and-gates and inverters. Define a procedure or-gate
-that accomplishes this. What is the delay time of the or-gate in terms of
-and-gate-delay and inverter-delay?
+that accomplishes this. 
 
 >> it seems it is a certain law for this, using "and-gate" and "inverter"
 to make an "or-gate"
@@ -21,3 +20,7 @@ P OR Q = NOT( (NOT P) AND (NOT Q) )
     (add-action! a2 alternative-or-action-procedure)
   'ok
   )
+
+What is the delay time of the or-gate in terms of
+and-gate-delay and inverter-delay?
+>> the delay time is 1 and-gate-delay + 3 inverter-delay
