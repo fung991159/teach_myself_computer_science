@@ -1,0 +1,23 @@
+1. mutators: abstraction that modify data objects.
+2. Data objects that has a mutators defined are known as mutable data objects.
+3. With mutatable object, we need to face the "sameness" issue of an object
+object build with cons can refer to the same list
+4. eq? can be used to test whether x and y are the same object (i.e. if they
+have equal pointers)
+5. queue is a FIFO that new item add to the queue will be append last, while
+delete item will start from first.
+6. queue have front and rear pointer, so no matter how long the queue is,
+it takes one step to add to the queue at the end.
+7. deque (double ended queue) is enhanced queue with ability to add from front,
+and delete from the end, with one step of course.
+8. table (hash table): has table is a list with "dummy record" as car,
+    another list in cdr. with each element in this list, the caar is the "key",
+    while cadr is the "value".
+
+    a lookup can be a theta n step process if loop through entire table to search
+    for key; or a one step process if using b tree.
+9. Assignemnt introduced the concept of time in a procedure. And it produce
+even more problem when in a concurrent system. The remedy are:
+    1. don't allow for concurrency when there is risk of data race (very inefficient)
+    2. mimick the result of sequenial run even the process is runnig in parallel
+
