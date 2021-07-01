@@ -20,4 +20,6 @@ and delete from the end, with one step of course.
 even more problem when in a concurrent system. The remedy are:
     1. don't allow for concurrency when there is risk of data race (very inefficient)
     2. mimick the result of sequenial run even the process is runnig in parallel
-
+    3. locking: the concept of a "mutex" is introduced. It is kind of a "decorator"
+    to put on procedure, where it need to wait for the "Go" signal in an internal list
+    before excuting a procedure. Hence ensure only single process can run in one time.
