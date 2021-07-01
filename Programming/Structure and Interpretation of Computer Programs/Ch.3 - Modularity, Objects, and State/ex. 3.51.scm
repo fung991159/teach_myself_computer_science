@@ -19,7 +19,6 @@ in the following sequence?
 (stream-ref x 7)
 >> this will show 6 to 7
 
-
 >> (stream-enumerate-interval 0 10) is a streamed list of 0 to 10
 x is a streamed list of show procedure
 stream-ref construct the list until it hit the index,
