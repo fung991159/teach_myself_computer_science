@@ -1,0 +1,9 @@
+1. streams: construct a stream partially, just enough to produce the required part.
+    a. "delayed evaluation" can be thought of as demand-driven programming,
+    each stage is activated only enough to get to the next stage.
+    b. it is pretty ingenious to put the "delayed" part into a lambda function to make
+    it a "delay eval promise object"
+2. To enable a stream function to loop itself with an initial value, it must introduced
+the concept of delay evaluation on the streaming part. But this will introduce two version
+of streaming procedure, one with delay and one without. One way to avoid this is to turn all
+arguments into a delayed version, but this will mess with functino that use assignment and keep state!
