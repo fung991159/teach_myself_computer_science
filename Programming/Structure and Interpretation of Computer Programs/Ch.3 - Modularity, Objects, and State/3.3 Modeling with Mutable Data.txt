@@ -15,13 +15,3 @@ and delete from the end, with one step of course.
     while cadr is the "value".
     a lookup can be a theta n step process if loop through entire table to search
     for key; or a one step process if using b tree.
-9. Assignemnt introduced the concept of time in a procedure. And it produce
-even more problem when in a concurrent system. The remedy are:
-    1. don't allow for concurrency when there is risk of data race (very inefficient)
-    2. mimick the result of sequenial run even the process is runnig in parallel
-    3. locking: the concept of a "mutex" is introduced. It is kind of a "decorator"
-    to put on procedure, where it need to wait for the "Go" signal in an internal list
-    before excuting a procedure. Hence ensure only single process can run in one time.
-10. streams: construct a stream partially, just enough to produce the required part.
-    1. "delayed evaluation" can be thought of as demand-driven programming,
-    each stage is activated only enough to get to the next stage.
