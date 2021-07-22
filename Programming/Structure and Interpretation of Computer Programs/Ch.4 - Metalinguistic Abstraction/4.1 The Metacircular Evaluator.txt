@@ -1,0 +1,2 @@
+1. An Evaluator(Interpretor) is a procedure that, when applied to an expression of the language, performs the actions required to evaluate that expression. In other word, it is just another program!
+2. Evaluator that is written in the same language that it evaluates is said to be "metacircular", hence python isn't an example. Golang is.
