@@ -28,3 +28,12 @@ derived expressions.
   (cond ((no-predicate? exps) #f))
         ((true? (eval (first-predicate exps))) #t)
         (else (eval-or (rest-predicate exps) env)))
+
+>> dervied expression, basically it is just break down of the cond
+and use nested-if instead
+(define (eval-and exps env)
+  (if (no-predicate? exps)
+      #t
+      (if (not (true? (eval (first-predicate exps))))
+          #f
+          (eval-and (rest-predicate exps) env))))
