@@ -61,6 +61,9 @@ while original evaluator will have p invoked and have x=1, which is the concept 
 
 c. Cy also points out that changing eval-sequence as he proposes does not affect the behavior of the
 example in part a. Explain why this is true.
+>> it is only because lambda is a primitivate procedure and hence always will be forced, regardless of which evaluator.
+
 
 d. How do you think sequences ought to be treated in the lazy evaluator? Do you like Cy's approach, the
 approach in the text, or some other approach?
+>> the orginal lazy evaluator have more similar behavior as a "normal" evaluator. This is a huge advantage as it procduce less bug.
