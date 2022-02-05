@@ -1,0 +1,5 @@
+1. Applicative-order: all arguments are evaludated when procedure applied
+2. Normal Order: delay evaluatoin of arguments until actual argument values are needed
+3. Evaluator that use normal order is Lazy Evaluation.
+4. Streams are just Lazy Lists: each element are processed one at a time, so even if the stream is infinite, it won't crash the computer.
+5. To create a infinite stream is surprising easy, it is just a list of two element, first one being the current element, the second element is a "promise" that can be "forced"/ evaludated when needed.

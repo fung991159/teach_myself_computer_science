@@ -1,0 +1,2 @@
+1. Nondeterministic - program that can return more than one result, we do not know for sure what outcome we would get.
+2. The amb evaulator is capable of processing in a non-deterministic way. Because it step through all the "choice points". All the combinations of data that matches the fit the program instructions. it must be able to do "backtracking", reverting to a previous "choice point" if a branch has been exhausted", and continue with another unexplored branch.

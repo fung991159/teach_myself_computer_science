@@ -1,0 +1,5 @@
+1. With non deterministic program that is capable to return more than one values. Program can now describe relation, instead of a function that return single value. Now programmer can write code that describe "what-is" instead of "how-to"
+2. Much of this chpater is really like describing how database work.
+3. the chapter build a query system that base on "pattern matching" and "unification", and check against a streams of frame to see if there is such data in the database
+    - pattern matching: program that tests whether a data fit specific pattern
+    - Unification: generalization of pattern matching. except the datum can be a varaible. So that "rule" can be handled
