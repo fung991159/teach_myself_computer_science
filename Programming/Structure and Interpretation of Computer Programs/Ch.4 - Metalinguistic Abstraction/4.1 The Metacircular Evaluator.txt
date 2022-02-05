@@ -1,2 +1,7 @@
 1. An Evaluator(Interpretor) is a procedure that, when applied to an expression of the language, performs the actions required to evaluate that expression. In other word, it is just another program!
 2. Evaluator that is written in the same language that it evaluates is said to be "metacircular", hence python isn't an example. Golang is.
+3. eval: takes an expression and environment. And do the case analysis on what to do with the expression. i.e. is it a primitive? is it a "if"? or a "lambda"
+4. apply: takes a procedure and a list of arguments to apply to the procedure
+5. evaulator can be thought of as an universal machine. It can mimics ANY KIND of machine that are described as the programmer want.
+6. From the perspective of the evaulator, the program is just "Data"! In Lisp case it is just a "list", e.g. (* 2 2)
+7. The evaulator can gain efficiency by evaulating varaible once. By implementing "analyze" approach, where the evaludated value are encapsulated in a "let"
