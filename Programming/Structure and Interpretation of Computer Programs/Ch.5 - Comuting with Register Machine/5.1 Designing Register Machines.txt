@@ -1,0 +1,7 @@
+1. Introduction of data path and controller.
+2. introdcution of "continue", where the machine code should excute next
+3. Turn out "Stack" is among the most important data structure, since it is how
+recursion is rely on. Usually the flow is to save the current env / value of
+certain item that needed compute, and continue stacking up in the stack
+structure. Finally when it reach the bottom, then rewind the process and finish
+the compute.

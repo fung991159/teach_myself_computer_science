@@ -1,0 +1,7 @@
+1. This section introduces the core of the "interpreter",
+it is rather similar to metric curricular interpreter in ch.4
+2. Compare with Compiler, interpreter is slower, because it need to save and
+restore different section of the machine code and state all the time. Compiler
+can skip some of the step if it isn't necessarily. However, interpreter does
+have the advantage of debugging line by line and get to the state of the
+register since the code are "interpreted" line by line.

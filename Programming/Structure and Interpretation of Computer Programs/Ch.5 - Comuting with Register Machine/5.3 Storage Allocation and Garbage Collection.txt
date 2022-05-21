@@ -1,0 +1,13 @@
+1. Any programming language implicitly assumed infinitely memory,
+but the real world computer is not the case, hence "garbage collection",
+to reclaim memory that are occupied by object that is no longer required
+in the process.
+2. the book introduced "stop-and-copy" method for garbage collection, which
+works with dividing all memory into two half. "working memory" and free memory".
+When working memory is full, the still in use object will be copy over to free
+memory. Hence squeezing out memory out of unused objects. The cycle repeat in
+other direction.
+3. the implementation is interesting as well, there will be two pointers, "free"
+and "scan". "free" i sa pointer point to free memory, and incremented when ever
+and new write happened. "scan" is the pointer doing the checking on wokring
+memory, so it will check what object have or have not been moved to new working memory.

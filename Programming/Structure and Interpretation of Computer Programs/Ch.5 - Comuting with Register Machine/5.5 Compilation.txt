@@ -1,0 +1,9 @@
+1. A compiler translate user program into machine code, the language need to be
+the same for the compiler and user program
+
+interpretor and user program doesn't need to be in the same program, all it does
+is read user program, and decide which machine code to fire. The best example is
+Python with it's CPython Interpreter
+
+2. The implementation of the compiler is very complex, I gave up the pursuit in
+the middle of the chapter, hoping to come back when I attain more experiences.
