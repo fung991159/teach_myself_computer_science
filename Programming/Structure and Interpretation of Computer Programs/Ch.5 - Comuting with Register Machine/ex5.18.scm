@@ -22,14 +22,14 @@ off for designated machine registers.
       (cond ((eq? message 'get) contents)
             ((eq? message 'set)
               (lambda (value) 
-              (begin
-                (if (print-trace?)
-                  (display register-name)  ;; display register name
-                  (display contents)  ;; old contents
-                  (set! contents value)))))
-                  (display contents)  ;; new contents
-            ((eq? message 'trace-on) (set-register-trace-state 'True))
-            ((eq? message 'trace-off) (set-register-trace-state 'False))
+                (begin
+                  (if (print-trace?)
+                    (display register-name)  ;; display register name
+                    (display contents)  ;; old contents
+                    (set! contents value)))
+                    (display contents)))  ;; new contents
+              ((eq? message 'trace-on) (set-register-trace-state 'True))
+              ((eq? message 'trace-off) (set-register-trace-state 'False))
             (else
               (error "Unknown request: REGISTER" message))))
               dispatch))
