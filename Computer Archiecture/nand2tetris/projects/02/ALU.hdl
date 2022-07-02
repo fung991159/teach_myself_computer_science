@@ -58,7 +58,6 @@ CHIP ALU {
         ng; // 1 if (out < 0),  0 otherwise
 
     PARTS:
-   // Put you code here:
         // x: if (zx == 1) set x = 0
         Mux16 (a=x[0..15], sel=zx, out=xAfterZx);
 
@@ -81,7 +80,7 @@ CHIP ALU {
 
         // if (no == 1) set out = !out
         Not16 (in=outAfterF, out=notOutAfterF);
-        Mux16 (a=outAfterF, b=notOutAfterF, sel=no, out[0..7]=outFirstHalf, out[8..15]=outSecondHalf, out[15]=isNegative, out=out);
+        Mux16 (a=outAfterF, b=notOutAfterF, sel=no, out[0..7]=outFirstHalf, out[8..15]=outSecondHalf, out[15]=ng, out=out);
 
         // if (out == 0) set zr = 1
         // first confirm out is constant 0, then feed it to Mux
@@ -90,8 +89,4 @@ CHIP ALU {
         Or8Way (in=outSecondHalf, out=checkZeroSecondPart);
         Or(a=checkZeroFirstPart, b=checkZeroSecondPart, out=notZero);
         Not(in=notZero, out=zr);
-
-        // if (out < 0) set ng = 1
-        // if first bit is 1 then it is negative
-        Mux(a=false, b=true, sel=isNegative, out=ng);
 }
