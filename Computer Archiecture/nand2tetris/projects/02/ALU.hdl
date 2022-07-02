@@ -3,11 +3,27 @@
 // by Nisan and Schocken, MIT Press.
 // File name: projects/02/ALU.hdl
 
+/*
+Your first step will likely be
+creating a logic design for zeroing and negating a 16-bit value. This logic
+can be used for handling the x and y inputs as well as the out output. Chips
+for bitwise And-ing and addition have already been built in projects 1 and
+2, respectively.
+
+Thus, what remains is building logic that selects between
+these two operations, according to the f control bit (this selection logic was
+also implemented in project 1). 
+
+Once this main ALU functionality works
+properly, you can proceed to implement the required functionality of the
+single-bit zr and ng outputs
+*/
+
 /**
  * The ALU (Arithmetic Logic Unit).
  * Computes one of the following functions:
  * x+y, x-y, y-x, 0, 1, -1, x, y, -x, -y, !x, !y,
- * x+1, y+1, x-1, y-1, x&y, x|y on two 16-bit inputs, 
+ * x+1, y+1, x-1, y-1, x&y, x|y on two 16-bit inputs,
  * according to 6 input bits denoted zx,nx,zy,ny,f,no.
  * In addition, the ALU computes two 1-bit outputs:
  * if the ALU output == 0, zr is set to 1; otherwise zr is set to 0;
@@ -27,8 +43,8 @@
 // if (out < 0) set ng = 1
 
 CHIP ALU {
-    IN  
-        x[16], y[16],  // 16-bit inputs        
+    IN
+        x[16], y[16],  // 16-bit inputs
         zx, // zero the x input?
         nx, // negate the x input?
         zy, // zero the y input?
@@ -36,11 +52,46 @@ CHIP ALU {
         f,  // compute out = x + y (if 1) or x & y (if 0)
         no; // negate the out output?
 
-    OUT 
+    OUT
         out[16], // 16-bit output
         zr, // 1 if (out == 0), 0 otherwise
         ng; // 1 if (out < 0),  0 otherwise
 
     PARTS:
    // Put you code here:
+        // x: if (zx == 1) set x = 0
+        Mux16 (a=x[0..15], sel=zx, out=xAfterZx);
+
+        // x: if (nx == 1) set x = !x
+        Not16 (in=xAfterZx, out=notXAfterZx);
+        Mux16 (a=xAfterZx, b=notXAfterZx, sel=nx, out=xAfterNx);
+
+        // y: if (zy == 1) set y = 0
+        Mux16 (a=y[0..15], sel=zy, out=yAfterZy);
+
+        // y: if (ny == 1) set y = !y
+        Not16 (in=yAfterZy, out=notYAfterZy);
+        Mux16 (a=yAfterZy, b=notYAfterZy, sel=ny, out=yAfterNy);
+
+        // if (f == 1)  set out = x + y
+        // if (f == 0)  set out = x & y
+        Add16 (a=xAfterNx, b=yAfterNy, out=xAddY);
+        And16 (a=xAfterNx, b=yAfterNy, out=xAndY);
+        Mux16 (a=xAndY, b=xAddY, sel=f, out=outAfterF);
+
+        // if (no == 1) set out = !out
+        Not16 (in=outAfterF, out=notOutAfterF);
+        Mux16 (a=outAfterF, b=notOutAfterF, sel=no, out[0..7]=outFirstHalf, out[8..15]=outSecondHalf, out[15]=isNegative, out=out);
+
+        // if (out == 0) set zr = 1
+        // first confirm out is constant 0, then feed it to Mux
+        // to get desired output
+        Or8Way (in=outFirstHalf, out=checkZeroFirstPart);
+        Or8Way (in=outSecondHalf, out=checkZeroSecondPart);
+        Or(a=checkZeroFirstPart, b=checkZeroSecondPart, out=notZero);
+        Not(in=notZero, out=zr);
+
+        // if (out < 0) set ng = 1
+        // if first bit is 1 then it is negative
+        Mux(a=false, b=true, sel=isNegative, out=ng);
 }
