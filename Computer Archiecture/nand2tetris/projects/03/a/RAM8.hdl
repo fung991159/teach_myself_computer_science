@@ -16,4 +16,28 @@ CHIP RAM8 {
 
     PARTS:
     // Put your code here:
+    // DMux8Way (in=in[0..15], sel=address[0..2], out=dMuxOut)
+
+    // select which register to load new value
+    DMux8Way(in=load, sel=address[0..2],
+            a=regAload, b=regBload, c=regCload,
+            d=regDload, e=regEload, f=regFload,
+            g=regGload, h=regHload
+    );
+
+    Register(in=in[0..15], load=regAload, out=outA);
+    Register(in=in[0..15], load=regBload, out=outB);
+    Register(in=in[0..15], load=regCload, out=outC);
+    Register(in=in[0..15], load=regDload, out=outD);
+    Register(in=in[0..15], load=regEload, out=outE);
+    Register(in=in[0..15], load=regFload, out=outF);
+    Register(in=in[0..15], load=regGload, out=outG);
+    Register(in=in[0..15], load=regHload, out=outH);
+
+    // select which register output to pipe to RAM8 output
+    Mux8Way16(a=outA, b=outB, c=outC,
+              d=outD, e=outE, f=outF,
+              g=outG, h=outH,
+              sel=address[0..2],
+              out=out);
 }
