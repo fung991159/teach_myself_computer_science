@@ -14,6 +14,29 @@ CHIP RAM512 {
     IN in[16], load, address[9];
     OUT out[16];
 
+    //xxxyyyzzz
+    //xxx: selecting which RAM64
+    //yyyzzz: selecting which RAM8 and Register
+
     PARTS:
-    // Put your code here:
+    DMux8Way(in=load, sel=address[6..8],
+            a=ramAload, b=ramBload, c=ramCload,
+            d=ramDload, e=ramEload, f=ramFload,
+            g=ramGload, h=ramHload
+    );
+
+    RAM64(in=in, load=ramAload, address=address[0..5], out=outA);
+    RAM64(in=in, load=ramBload, address=address[0..5], out=outB);
+    RAM64(in=in, load=ramCload, address=address[0..5], out=outC);
+    RAM64(in=in, load=ramDload, address=address[0..5], out=outD);
+    RAM64(in=in, load=ramEload, address=address[0..5], out=outE);
+    RAM64(in=in, load=ramFload, address=address[0..5], out=outF);
+    RAM64(in=in, load=ramGload, address=address[0..5], out=outG);
+    RAM64(in=in, load=ramHload, address=address[0..5], out=outH);
+
+    Mux8Way16(a=outA, b=outB, c=outC,
+              d=outD, e=outE, f=outF,
+              g=outG, h=outH,
+              sel=address[6..8],
+              out=out);
 }
