@@ -16,4 +16,27 @@ CHIP RAM64 {
 
     PARTS:
     // Put your code here:
+    /// xxxyyy, xxx for selecting which RAM8, yyy for selecting which register within a RAM8 to load
+
+    DMux8Way(in=load, sel=address[3..5],
+            a=ramAload, b=ramBload, c=ramCload,
+            d=ramDload, e=ramEload, f=ramFload,
+            g=ramGload, h=ramHload
+    );
+
+    RAM8(in=in, load=ramAload, address=address[0..2], out=outA);
+    RAM8(in=in, load=ramBload, address=address[0..2], out=outB);
+    RAM8(in=in, load=ramCload, address=address[0..2], out=outC);
+    RAM8(in=in, load=ramDload, address=address[0..2], out=outD);
+    RAM8(in=in, load=ramEload, address=address[0..2], out=outE);
+    RAM8(in=in, load=ramFload, address=address[0..2], out=outF);
+    RAM8(in=in, load=ramGload, address=address[0..2], out=outG);
+    RAM8(in=in, load=ramHload, address=address[0..2], out=outH);
+
+    Mux8Way16(a=outA, b=outB, c=outC,
+              d=outD, e=outE, f=outF,
+              g=outG, h=outH,
+              sel=address[3..5],
+              out=out);
+
 }
