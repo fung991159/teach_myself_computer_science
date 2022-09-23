@@ -34,10 +34,42 @@ CHIP CPU {
                          // the current program (reset==0).
 
     OUT outM[16],        // M value output
-        writeM,          // Write to M? 
+        writeM,          // Write to M?
         addressM[15],    // Address in data memory (of M)
         pc[15];          // address of next instruction
 
     PARTS:
-    // Put your code here:
+
+    // instruction break down
+    // 0ccccccccccccccc (A instruction)
+    //
+    // 1ccccccccccccccc (C instruction)
+    // 111accccccdddjjj
+    // acccccc (what to copmute)
+    // ddd dest   three digit represent 3 different register A/D/M
+    // jjj jump
+
+
+    // A Reigster input: determine A Register output, either ALU output or instruction
+    Mux16(a=instruction, b=ALUOut, sel=instruction[15], out=InstructionOrALUOut);
+
+    // A Register, whether to load into instruction by dest=A bit
+    // A Regsiter output also connect to addressM
+    Register(in=InstructionOrALUOut, load=instruction[5], out=ARegisterOut, out=addressM);
+
+    // ALU input A: A register output OR M input
+    Mux16(a=ARegisterOut,b=inM,sel=instruction[12],out=inMOrARegister);
+
+    // ALU input B: D Register output
+    Register(in=ALUOut, load=1,out=DRegsiterOut);
+
+    // ALU operations
+    ALU(x=DRegsiterOut,y=ARegisterOut,zx=instruction[11],nx=instruction[10],zy=instruction[9],ny=instruction[8],f=instruction[7],no=instruction[6],out=ALUOut, out=outM, zr=zr,ng=ng);
+
+    // PC, working
+    Not(in=instruction[15], out=invertedFirstBit)
+    PC(in=ARegisterOut,load=?,inc=,reset=reset,out=pc);  // load/inc/reset only 1 can be 1 at a time, use DeMux
+
+    // writeM: extract dest=M bit and
+    And(a=instruction[3], b=1, out=writeM);
 }
