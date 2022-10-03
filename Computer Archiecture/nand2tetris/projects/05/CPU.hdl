@@ -4,24 +4,23 @@
 // File name: projects/05/CPU.hdl
 
 /**
- * The Hack CPU (Central Processing unit), consisting of an ALU,
- * two registers named A and D, and a program counter named PC.
- * The CPU is designed to fetch and execute instructions written in 
- * the Hack machine language. In particular, functions as follows:
- * Executes the inputted instruction according to the Hack machine 
- * language specification. The D and A in the language specification
- * refer to CPU-resident registers, while M refers to the external
- * memory location addressed by A, i.e. to Memory[A]. The inM input 
- * holds the value of this location. If the current instruction needs 
- * to write a value to M, the value is placed in outM, the address 
- * of the target location is placed in the addressM output, and the 
- * writeM control bit is asserted. (When writeM==0, any value may 
+ * The Central Processing unit (CPU).
+ * Consists of an ALU and a set of registers, designed to fetch and 
+ * execute instructions written in the Hack machine language.
+ * In particular, the ALU executes the inputted instruction according
+ * to the Hack machine language specification, as follows. 
+ * The D and A in the language specification refer to CPU-resident registers,
+ * while M refers to the memory register addressed by A, i.e. to Memory[A].
+ * The inM input holds the value of this register. If the current instruction 
+ * needs to write a value to M, the value is placed in outM, the address 
+ * of the target register is placed in the addressM output, and the 
+ * writeM control bit is asserted. (When writeM=0, any value may 
  * appear in outM). The outM and writeM outputs are combinational: 
  * they are affected instantaneously by the execution of the current 
  * instruction. The addressM and pc outputs are clocked: although they 
  * are affected by the execution of the current instruction, they commit 
- * to their new values only in the next time step. If reset==1 then the 
- * CPU jumps to address 0 (i.e. pc is set to 0 in next time step) rather 
+ * to their new values only in the next time unit. If reset == 1, then the 
+ * CPU jumps to address 0 (i.e. sets pc = 0 in next time unit) rather 
  * than to the address resulting from executing the current instruction. 
  */
 
@@ -49,27 +48,65 @@ CHIP CPU {
     // ddd dest   three digit represent 3 different register A/D/M
     // jjj jump
 
+    // income instruction is either A or C Instruction
+    Not(in=instruction[15], out=Ainst);
+    Not(in=Ainst, out=Cinst);
 
-    // A Reigster input: determine A Register output, either ALU output or instruction
-    Mux16(a=instruction, b=ALUOut, sel=instruction[15], out=InstructionOrALUOut);
+    // get the load bit of A Register: If it is C instruction and indicated dest to A Register, then load it to A Register
+    And(a=Cinst, b=instruction[5], out=cInstNeedToLoadAReg);
 
-    // A Register, whether to load into instruction by dest=A bit
-    // A Regsiter output also connect to addressM
-    Register(in=InstructionOrALUOut, load=instruction[5], out=ARegisterOut, out=addressM);
+    // A Register input: determine A Register output, either ALU output or instruction
+    Mux16(a=instruction, b=ALUOut, sel=cInstNeedToLoadAReg, out=ARegsiterIn);
 
-    // ALU input A: A register output OR M input
-    Mux16(a=ARegisterOut,b=inM,sel=instruction[12],out=inMOrARegister);
+    // Load A Register if it is A instruction OR C instruction with destination to A Reg
+    Or(a=Ainst, b=instruction[5], out=loadARegister);
 
-    // ALU input B: D Register output
-    Register(in=ALUOut, load=1,out=DRegsiterOut);
+    ARegister(in=ARegsiterIn, load=loadARegister, out=ARegisterOut);
+
+
+    // ALU input A: A register output OR M input, whether it is A|M is decide by "a" bit
+    Mux16(a=ARegisterOut,b=inM,sel=instruction[12],out=inMOrARegisterOut);
+
+    // ALU input B: D Register output, whether to load or not is decide by "dest" bit
+    And(a=Cinst, b=instruction[4], out=loadDRegister);  // if it is C instruction and load bit point to D Reg
+    DRegister(in=ALUOut, load=loadDRegister,out=DRegsiterOut);
 
     // ALU operations
-    ALU(x=DRegsiterOut,y=ARegisterOut,zx=instruction[11],nx=instruction[10],zy=instruction[9],ny=instruction[8],f=instruction[7],no=instruction[6],out=ALUOut, out=outM, zr=zr,ng=ng);
+    ALU(x=DRegsiterOut,y=inMOrARegisterOut,zx=instruction[11],nx=instruction[10],zy=instruction[9],ny=instruction[8],f=instruction[7],no=instruction[6],out=ALUOut, zr=zr,ng=ng);
 
-    // PC, working
-    Not(in=instruction[15], out=invertedFirstBit)
-    PC(in=ARegisterOut,load=?,inc=,reset=reset,out=pc);  // load/inc/reset only 1 can be 1 at a time, use DeMux
+    // output
+    // writeM: extract dest=M bit if it is C instruction
+    And(a=instruction[3], b=Cinst, out=writeM);
+    // outM
+    And16(a=true, b=ALUOut, out=outM);
+    // addressM
+    And16(a=true, b=ARegisterOut, out[0..14]=addressM);
 
-    // writeM: extract dest=M bit and
-    And(a=instruction[3], b=1, out=writeM);
+
+    // PC
+    // The hardest part of PC is to decide whether we need to jump to the other
+    // adderss from A register out, to decide this we need to check ALU output with all 3 last bit from the C Instruction and see if it meet the jump condition
+
+    // ALU output is 0 and jump if output is 0
+    And(a=zr, b=instruction[1], out=jeq);
+    // ALU output is negative and jump if output is negative
+    And(a=ng, b=instruction[2], out=jlt);
+    // Whether ALU output is Positive
+    Or(a=zr, b=ng, out=ZrOrNg);
+    Not(in=ZrOrNg, out=isPositive);
+    // ALU output is positive and jump if output is positive
+    And(a=isPositive, b=instruction[0], out=jgt);
+
+    // JLE is just either JEQ and JLT
+    Or(a=jeq, b=jlt, out=jle);
+    // JGE is just either JEQ and JGT, but since jeq is already verified in JLE, so we don't need to fetch JGE
+
+    Or(a=jle, b=jgt, out=jumpToA);
+
+    // If it is C instruction and met jump condition
+    And(a=Cinst, b=jumpToA, out=pcLoad);
+    Not(in=pcLoad, out=pcInc);
+
+    // load/inc/reset only 1 can be 1 at a time
+    PC(in=ARegisterOut,load=pcLoad,inc=pcInc,reset=reset,out[0..14]=pc);
 }
