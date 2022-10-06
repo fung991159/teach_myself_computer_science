@@ -14,7 +14,7 @@
 // Put your code here.
 
 (MAIN_LOOP)
-    //  if keyboard pressed (value not equal to zero), GOTO PRESSED
+    //  if keyboard pressed (value not equal to zero), GOTO SCREEN_BLACK
     @KBD
     D=M
 

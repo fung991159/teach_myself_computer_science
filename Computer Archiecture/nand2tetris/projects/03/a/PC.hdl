@@ -11,24 +11,12 @@
  * else                    out[t+1] = out[t]
  */
 
-//001 reset             Mux8Way16(b)
-//010 load              Mux8Way16(c)
-//100 inc               Mux8Way16(e)
-
-
-// sel: reset | load | inc
-//       sel[0], sel[1], sel[0]
-// reset = 001 (b)
-// load = 010 (c)
-// inc = 100 (e)
-
 
 CHIP PC {
     IN in[16],load,inc,reset;
     OUT out[16];
 
     PARTS:
-    // Put your code here:
     Inc16(in=regOut, out=incOut);
 
     // selection bit can only contains
