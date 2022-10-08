@@ -1,0 +1,9 @@
+# Object
+    # parser
+    # code: translate 
+    # symbol_table
+    # main
+
+# step
+# develop assembler without symbols
+# add symbols feature
