@@ -1,3 +1,6 @@
+import re
+
+
 class Parser:
     """Reading and parsing commands., unpack each underlying fields
 
@@ -12,6 +15,7 @@ class Parser:
         self.pos = 0
         self.current_command = None
         self.command_type_mapping = {"//": "comment", "": "blank", "@": "a_inst"}
+        self.c_inst_comp_regex_patt = re.compile(pattern="(.*=)?(.*);(.*)?")
 
     def read(self, file_path: str):
         with open(file_path, "r") as f:
@@ -45,31 +49,36 @@ class Parser:
         elif inst_type == "c_inst":
             self._handle_c_inst(inst=inst)
 
-    def _handle_a_inst(self, inst):
-        """convert A instruction to binary
+    @property
+    def label(self):
+        if self.command_type == "a_inst":
+            return self.current_command.replace("@", "")
+        return None
 
-        Args:
-            inst (_type_): _description_
+    @property
+    def dest(self):
+        if self.command_type == "c_inst":
+            if "=" in self.current_command:
+                return self.current_command.split("=")[0]
+        return None
 
-        Returns:
-            _type_: _description_
-        """
-        return inst.replace("@", "")
-        # if inst_content.isdigit():
-        #     return int(inst_content, 2)
-        # else:  # symbol
-        #     pass
+    @property
+    def comp(self):
+        output = self.current_command
+        if "=" in output:
+            output = output.split("=")[1]
 
-    def _handle_c_inst(self, inst: str):
-        """
+        if ";" in output:
+            output = output.split(";")[0]
 
-        Args:
-            inst (str): _description_
-        """
-        pass
+        return output
 
-    def _handle_label(self):
-        pass
+    @property
+    def jump(self):
+        if self.command_type == "c_inst":
+            if ";" in self.current_command:
+                return self.current_command.split(";")[-1]
+        return None
 
 
 if __name__ == "__main__":
@@ -82,7 +91,12 @@ if __name__ == "__main__":
     while True:
         if p.has_more_commands():
             p.advance()
+
+            print(p.label)
             print(p.current_command)
-            print(p.command_type)
+            print(p.dest)
+            print(p.comp)
+            print(p.jump)
+
         else:
             break
