@@ -23,7 +23,8 @@ class Code:
             pass
 
     def _c_inst_to_binary(self, c_inst: str, part: str):
-        pass
+        part = part.strip().lower()
+        return getattr(self, f"_c_inst_{part}")(c_inst)
 
     def _c_inst_dest(self, dest_symbol):
         dest = {
@@ -60,7 +61,7 @@ class Code:
             "D&A": "000000",
             "D|A": "010101",
         }
-        pass
+        return "111" + comp[comp_symbol]
 
     def _c_inst_jump(self, jump_symbol):
         jump = {
@@ -79,5 +80,5 @@ if __name__ == "__main__":
     from rich import print
 
     c = Code()
-    result = c.to_binary("@100")
+    result = c._c_inst_to_binary("D-1", part="comp")
     print(result)
