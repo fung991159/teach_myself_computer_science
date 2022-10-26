@@ -7,26 +7,13 @@ class Code:
     def __init__(self):
         pass
 
-    def to_binary(self, inst: str):
-        """distinguish if it is A or C instruction, then call handling helper function"""
-
-        if inst.startswith("@"):
-            output = self._a_inst_to_binary(label=inst[1:])
-        else:
-            output = self._c_inst_to_binary(inst=inst)
-        return output
-
     def _a_inst_to_binary(self, inst: str):
         if inst.isdigit():
             return f"{int(inst):015b}"
         else:
             pass
 
-    def _c_inst_to_binary(self, c_inst: str, part: str):
-        part = part.strip().lower()
-        return getattr(self, f"_c_inst_{part}")(c_inst)
-
-    def _c_inst_dest(self, dest_symbol):
+    def dest(self, dest_symbol):
         dest = {
             "M": "001",
             "D": "010",
@@ -39,31 +26,41 @@ class Code:
 
         return dest.get(dest_symbol, "000")
 
-    def _c_inst_comp(self, comp_symbol):
+    def comp(self, comp_symbol):
         comp = {
             # a=0
             "0": "0101010",
             "1": "0111111",
-            "-1": "111010",
-            "D": "001100",
-            "A": "110000",
-            "!D": "001101",
-            "!A": "110001",
-            "-D": "001111",
-            "-A": "110011",
-            "D+1": "011111",
-            "A+1": "110111",
+            "-1": "0111010",
+            "D": "0001100",
+            "A": "0110000",
+            "!D": "0001101",
+            "!A": "0110001",
+            "-D": "0001111",
+            "-A": "0110011",
+            "D+1": "0011111",
+            "A+1": "0110111",
             "D-1": "001110",
-            "A-1": "110010",
-            "D+A": "000010",
-            "D-A": "010011",
-            "A-D": "000111",
-            "D&A": "000000",
-            "D|A": "010101",
+            "A-1": "0110010",
+            "D+A": "0000010",
+            "D-A": "0010011",
+            "A-D": "0000111",
+            "D&A": "0000000",
+            "D|A": "0010101",
+            # a==1
+            "M": "1110000",
+            "!M": "1110001",
+            "M+1": "1110111",
+            "M-1": "1110010",
+            "D+M": "1000010",
+            "D-M": "1010011",
+            "M-D": "1000111",
+            "D&M": "1000000",
+            "D|M": "1010101",
         }
-        return "111" + comp[comp_symbol]
+        return comp[comp_symbol]
 
-    def _c_inst_jump(self, jump_symbol):
+    def jump(self, jump_symbol):
         jump = {
             "JGT": "001",
             "JEQ": "010",
