@@ -35,7 +35,7 @@ class Parser:
     def instruction_type(self) -> str:
         if self.current_command.startswith("@"):
             return "a_inst"
-        elif self.current_command.startswith("(") and self.current_command.startswith(
+        elif self.current_command.startswith("(") and self.current_command.endswith(
             ")"
         ):
             return "l_inst"
@@ -44,19 +44,21 @@ class Parser:
 
     @property
     def symbol(self):
+        cleaned_current_command = self.current_command.split("//")[0].strip()
         if self.instruction_type == "a_inst":
-            return self.current_command.replace("@", "")
+            return cleaned_current_command.replace("@", "")
         elif self.instruction_type == "l_inst":
-            return self.current_command.replace("(", "").replace(")", "")
+            return cleaned_current_command.replace("(", "").replace(")", "")
 
     @property
     def dest(self):
-        if "=" in self.current_command:
-            return self.current_command.split("=")[0]
+        output = self.current_command.split("//")[0].strip()
+        if "=" in output:
+            return output.split("=")[0]
 
     @property
     def comp(self):
-        output = self.current_command
+        output = self.current_command.split("//")[0].strip()
         if "=" in output:
             output = output.split("=")[1]
 
@@ -67,8 +69,9 @@ class Parser:
 
     @property
     def jump(self):
-        if ";" in self.current_command:
-            return self.current_command.split(";")[-1]
+        output = self.current_command.split("//")[0].strip()
+        if ";" in output:
+            return output.split(";")[-1]
 
 
 if __name__ == "__main__":
