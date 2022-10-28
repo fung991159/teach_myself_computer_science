@@ -1,0 +1,43 @@
+>> hexadecimal is a pretty neat way to represent binary number.
+
+Perform the following number conversions:
+A. 0x39A7F8 to binary
+
+3 = 0011
+9 = 1001
+A = 1010
+7 = 0111
+F = 1111
+8 = 1000
+
+0x39A7F8 = 001110011010011111111000
+
+B. Binary 1100100101111011 to hexadecimal
+
+1100 = 12 = C
+1001 =      9
+0111 =      7
+1011 = 11 = B
+
+1100100101111011 = 0xC97B
+
+C. 0xD5E4C to binary
+
+D = 13 = 1101
+5      = 0101
+E = 14 = 1110
+4      = 0100
+C = 12 = 1100
+
+0xD5E4C = 11010101111001001100
+
+D. Binary 1001101110011110110101 to hexadecimal
+
+0010 = 2
+0110 = 6
+1110 = 14 = E
+0111 = 7
+1011 = 11 = B
+0101 = 5
+
+1001101110011110110101 = 0x26E7B5
