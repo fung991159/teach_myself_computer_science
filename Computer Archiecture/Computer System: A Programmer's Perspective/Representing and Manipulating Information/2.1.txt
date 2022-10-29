@@ -1,3 +1,6 @@
+Practice Problem 2.1
+Perform the following number conversions:
+
 >> hexadecimal is a pretty neat way to represent binary number.
 
 Perform the following number conversions:
