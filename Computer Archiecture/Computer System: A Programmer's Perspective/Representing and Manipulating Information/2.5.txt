@@ -1,0 +1,23 @@
+void show_bytes(byte_pointer start, size_t len) {
+    int i;
+    for (i = 0; i < len; i++)
+    printf(" %.2x", start[i]);
+    printf("\n");
+}
+
+Consider the following three calls to show_bytes:
+int a = 0x12345678;
+byte_pointer ap = (byte_pointer) &a;
+show_bytes(ap, 1); /* A. */
+show_bytes(ap, 2); /* B. */
+show_bytes(ap, 3); /* C. */
+Indicate the values that will be printed by each call on a little-endian machine
+and on a big-endian machine:
+
+little endian: 78 56 34 12
+big endian:     12 34 56 78
+
+A. Little endian: 78         Big endian: 12
+B. Little endian: 78 56      Big endian: 12 34
+C. LIttle endian: 78 56 34   Big endian: 12 34 56
+
