@@ -1,0 +1,33 @@
+Computers generate color pictures on a video screen or liquid crystal display
+by mixing three different colors of light: red, green, and blue. Imagine a simple
+scheme, with three different lights, each of which can be turned on or off, project-
+ing onto a glass screen:
+Light sources
+Red
+Green
+Glass screen
+Observer
+Blue
+We can then create eight different colors based on the absence (0) or presence
+(1) of light sources R, G, and B:
+
+
+Each of these colors can be represented as a bit vector of length 3, and we can
+apply Boolean operations to them.
+
+A. The complement of a color is formed by turning off the lights that are on and
+turning on the lights that are off. What would be the complement of each of
+the eight colors listed above?
+
+color   complement color
+Black   White
+Yellow  Red
+Green   Magenta
+Cyan    Red
+
+
+B. Describe the effect of applying Boolean operations on the following colors:
+                R   G   B
+Blue | Green =  0   1   1   = Cyan
+Yellow & Cyan = 0   1   0   = Green
+Red ^ Magenta = 0   0   1   = Blue
