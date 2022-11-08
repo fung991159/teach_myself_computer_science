@@ -1,0 +1,13 @@
+A. For an array of odd length cnt = 2k + 1, what are the values of variables
+first and last in the final iteration of function reverse_array?
+>> the values of first and last would be equal
+
+B. Why does this call to function inplace_swap set the array element to 0?
+>> whenever the array is odd length, first and last will be swapping the value
+in the same address. Due to the XOR properties of a ^ a = 0, it will always
+return 0.
+
+C. What simple modification to the code for reverse_array would eliminate
+this problem?
+>> in the for loop statment, remove the equal sign so that the loop stop before
+first == last.
