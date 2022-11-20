@@ -1,0 +1,20 @@
+With bis, the modification involves setting z to 1 at each bit position where m
+is 1.  (OR)
+With bic, the modification involves setting z to 0 at each bit position where m
+is 1.   (NOT)
+
+
+int bool_or(int x, int y) {
+    int result = bis(x, y)
+    return result;
+}
+
+
+int bool_xor(int x, int y) {
+    int result = bis(bic(x, y), bic(y, x))
+    return result;
+}
+
+
+>> bis is equivlent of OR gate
+>> not sure how bool_xor was achieved though
