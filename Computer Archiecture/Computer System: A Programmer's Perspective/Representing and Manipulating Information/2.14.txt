@@ -1,0 +1,43 @@
+Suppose that a and b have byte values 0x55 and 0x46, respectively. Fill in the
+following table indicating the byte values of the different C expressions:
+
+
+The logical operations treat
+any nonzero argument as representing true and argument 0 as representing false.
+
+
+Expression  Value
+a & b       0x44
+
+0101 0101 0x55
+0100 0110 0x46
+0100 0100 AND = 0x44
+
+
+a && b      0x01
+a | b       
+0101 0101 a
+0100 0110 b
+0101 0111 a or b = 0x57
+
+
+
+
+a || b      0x01
+~a | ~b
+
+1010 1010 Not A
+1011 1001 Not b
+1011 1011 a or b  = 0xBB
+
+
+!a || !b    0x00
+a & !b
+0101 0101 A
+1011 1001 Not b
+0001 0001 a and b = 0x11
+a && ~b     0x01
+
+
+>> logical operation would only return true / false, while bit level
+operationwill caculate on a bit level basis.
