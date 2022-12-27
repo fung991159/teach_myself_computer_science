@@ -1,0 +1,16 @@
+Using only bit-level and logical operations, write a C expression that is equivalent
+to x == y. In other words, it will return 1 when x and y are equal and 0
+otherwise.
+
+>> !( x ^ y ), this expression can get the desired result.
+
+1100
+1100
+0000 (XOR)
+
+the only time when logical XOR  ( x ^ y ) gives all 0 bit output is when x == y, so to make
+the function emit 1 and 0 response we just need to flip the output with logical
+NOT operator
+
+
+
