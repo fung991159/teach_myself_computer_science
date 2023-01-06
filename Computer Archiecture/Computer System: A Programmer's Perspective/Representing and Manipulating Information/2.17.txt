@@ -1,0 +1,12 @@
+Assuming w = 4, we can assign a numeric value to each possible hexadecimal
+digit, assuming either an unsigned or a two’s-complement interpretation. Fill in
+the following table according to these interpretations by writing out the nonzero powers of 2 in the summations shown in Equations 2.1 and 2.3:
+
+x
+Hexadecimal     Binary      B2U4(x)             B2T4(x)
+0xA             [1010]      2^3+2^1=10          -2^3+2^1=-6
+0x1             [0001]      1^0=1               1^0=1
+0xB             [1011]      2^3+2^1+2^0=11      -2^3+2^1+2^0=-5
+0x2             [0010]      2^1=2               2^1=2
+0x7             [0111]      2^2+2^1+2^0=7       2^2+2^1+2^0=7
+0xC             [1100]      2^3+2^2=12          -2^3+2^2=-4
