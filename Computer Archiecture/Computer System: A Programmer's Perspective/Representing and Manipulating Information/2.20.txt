@@ -1,0 +1,8 @@
+Explain how Equation 2.5 applies to the entries in the table you generated when
+solving Problem 2.19.
+
+>> Equation 2.5 shows that if x is >= 0, Two coplent number to unisgned number
+would have the same binary representation, only when x is less than 0, then
+unsigned number will be larger than two representation number. The magnitude of
+difference is the value represented by the most significant bit (since it is
+being used as neagtion bit)
