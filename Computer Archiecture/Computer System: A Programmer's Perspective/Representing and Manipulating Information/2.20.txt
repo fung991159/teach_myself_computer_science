@@ -1,0 +1,17 @@
+Explain how Equation 2.5 applies to the entries in the table you generated when
+solving Problem 2.19.
+
+if x<0:
+    T2Uw(x) = x+2^w
+else:
+    T2Uw(x) = x
+
+x       Binary          T2U4(x)
+-1      1111            -1 + 2^4 = 15          
+-5      1011            -5 + 2^4 = 11
+-6      1010            -6 + 2^4 = 10
+-4      1100            -4 + 2^4 = 12
+1       0001            1 = 1       
+8       0000 0111       8 = 8
+
+>> so the formulua is valid
