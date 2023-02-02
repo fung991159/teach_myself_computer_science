@@ -1,0 +1,18 @@
+Assuming the expressions are evaluated when executing a 32-bit program on a ma-
+chine that uses two’s-complement arithmetic, fill in the following table describing the effect of casting and relational operations, in the style of Figure 2.19:
+
+Expression                          Type            Evaluation
+-2147483647-1 == 2147483648U        Unsigned        1
+>> left binary form is "100000...", which is equal to Unsigned value binary form
+
+-2147483647-1 < 2147483647          Signed          1
+>> both is signed value, so negative number can't be larger
+
+-2147483647-1U < 2147483647         Unsigned        0
+>> when casted to unsigned the 2147483648 < 2147483647
+
+-2147483647-1 < -2147483647         Signed          1
+>> compare with previous line, this one are all signed operations,-2147483648 is smaller than -2147483647
+
+-2147483647-1U < -2147483647        Unsigned        1
+This is rather similar to the 3rd expression.
