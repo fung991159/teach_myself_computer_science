@@ -4,7 +4,7 @@ table describing the function T2U4:
 
 >> Not sure how two complement form with 4 bit can have x=8 though
 
-x       Binary          T2U4(x)     
+x       Binary          T2U4(x)
 -1      1111            15
 -5      1011            11
 -6      1010            10

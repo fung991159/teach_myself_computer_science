@@ -1,0 +1,10 @@
+Show that each of the following bit vectors is a two’s-complement representation
+of −4 by applying Equation 2.3:
+    A. [1100]
+    >>  -1*2^3 + 1*2^2 + 0*2^1 + 0*2^0 = -8 + 4 = -4
+    B. [11100]
+    >>  -1*2^4 + 1*2^3 + 1*2^2 + 0*2^1 + 0*2^0 = -16 + 8 + 4 = -4
+    C. [111100]
+    >>  -1*2^5 + 1*2^4 + 1*2^3 + 1*2^2 + 0*2^1 + 0*2^0 = -32 + 16 + 8 + 4 = -4
+
+Observe that the second and third bit vectors can be derived from the first by sign extension.
