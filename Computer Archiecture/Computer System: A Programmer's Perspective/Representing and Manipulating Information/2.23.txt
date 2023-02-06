@@ -1,0 +1,39 @@
+Consider the following C functions:
+
+int fun1(unsigned word) {
+    return (int) ((word << 24) >> 24);
+}
+int fun2(unsigned word) {
+    return ((int) word << 24) >> 24;
+}
+
+Assume these are executed as a 32-bit program on a machine that uses two’s-
+complement arithmetic. Assume also that right shifts of signed values are per-
+formed arithmetically, while right shifts of unsigned values are performed logically.
+
+A. Fill in the following table showing the effect of these functions for several
+example arguments. You will find it more convenient to work with a hexa-
+decimal representation. Just remember that hex digits 8 through F have their
+most significant bits equal to 1.
+
+>> fun1 is shift of unsigned number, while fun2 is shift of signed number
+>> arithemetic shift is the one that keep most siginficant bit (and hence the numeric value)
+
+
+w               fun1(w)                                 fun2(w)
+0x00000076      0x00000076=7*16^1+6*16^0=112+6=118      118
+>> both fun1 and fun2 has same result since hex digits is lower than 8, right shfit is the same
+
+0x87654321      0x00000021=2*16^1+1*16^0=32+1=33        33
+0x000000C9      0x000000C9=12*16^1+9*16^0=192+9=201     0xFFFFFFC9=4294967241
+>> fun1:
+    left shift: 0xC9000000
+    right shift: 0x000000C9
+>> fun2:
+    left shift: 0xC9000000
+    right shift: 0xFFFFFFC9
+0xEDCBA987      0x00000087=8*16^1+7*16^0=135            0xFFFFFF87=4294967175
+
+
+B. Describe in words the useful computation each of these functions performs.
+>> basically both functions return only least significant 8 bit. But fun1 is a unsigned operation when shifting, func2 is signed.
