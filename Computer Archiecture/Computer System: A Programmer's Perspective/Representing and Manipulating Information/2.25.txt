@@ -1,0 +1,20 @@
+Consider the following code that attempts to sum the elements of an array a, where
+the number of elements is given by parameter length:
+
+/* WARNING: This is buggy code */
+float sum_elements(float a[], unsigned length) {
+    int i;
+    float result = 0;
+
+    for (i = 0; i <= length-1; i++)
+        result += a[i];
+    return result;
+}
+
+When run with argument length equal to 0, this code should return 0.0.
+Instead, it encounters a memory error. Explain why this happens. Show how this
+code can be corrected.
+
+>> The answer blew my mind. "length" is an unsigned variable. When unsigned variable is deducted by 1, it will use "modular arithmetic", that go around the clock and give unsigned MAX value. Hence the condition of for loop will always be TRUE and hence cause the memeory error.
+
+To fix it is to make sure the "length" variable is int so it can get to negative value should length be 0. An alternative is to avoid arithemtic altogether in condition, i < length in place of i < length-1
