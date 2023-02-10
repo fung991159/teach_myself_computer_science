@@ -1,0 +1,13 @@
+We can represent a bit pattern of length w = 4 with a single hex digit. For an
+unsigned interpretation of these digits, use Equation 2.12 to fill in the
+following table giving the values and the bit representations (in hex) of the
+unsigned additive inverses of the digits shown.
+
+
+     x                       -u4x
+hex     Decimal     Decimal     Hex
+1          1        16-1=15      F
+4          4        16-4=12      C
+7          7        16-7=9       9
+A          10       16-10=6      6
+E          14       16-14=2      2
