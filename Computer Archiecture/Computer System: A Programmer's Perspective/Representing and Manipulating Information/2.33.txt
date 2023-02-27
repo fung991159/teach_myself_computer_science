@@ -1,0 +1,12 @@
+         x                                 -t4x
+Hex     Binary      Decimal         Binary      Deciaml  Hex
+2       0010        2               1110        -2       E
+3       0011        3               1101        -3       D
+9       1001        -7              0111        7        7
+B       1011        -5              0101        5        5
+C       1100        -4              0100        4        4
+
+
+
+>> For two complement's hex number, anything above 8 is negative
+>> in the book Hex 9 is translated into decimal 9. I don't understand why isn't it translate to -9 instead, since the max decimal a 4 bit word can get is 7, there should be no way to get to Deciaml anything larger than "7" or smaller than "-8"?
