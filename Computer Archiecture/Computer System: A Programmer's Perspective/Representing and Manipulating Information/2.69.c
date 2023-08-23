@@ -1,0 +1,33 @@
+#include <stdio.h>
+#include "show_bytes.h"
+
+// Write code for a function with the following prototype:
+// /*
+// * Do rotating left shift. Assume 0 <= n < w
+// * Examples when x = 0x12345678 and w = 32:
+// *
+//  n=4 -> 0x23456781, n=20 -> 0x67812345
+// */
+// unsigned rotate_left(unsigned x, int n);
+// Your function should follow the bit-level integer coding rules (page 164). Be
+// careful of the case n = 0.
+
+unsigned rotate_left(unsigned x, int n)
+{
+    // 1. extract rotating n bits starting from msb:
+    show_bytes((byte_pointer)&x, sizeof(unsigned));
+    unsigned right_part = (x << n); // 0x23456780
+    show_bytes((byte_pointer)&right_part, sizeof(unsigned));
+
+    unsigned left_part = (x >> (32 - n)); // 0x00000001
+    show_bytes((byte_pointer)&left_part, sizeof(unsigned));
+    return (x << n) | (x >> (32 - n));
+};
+
+void main()
+{
+    unsigned x = 0x2345678;
+    int n = 4;
+    unsigned y = rotate_left(x, n);
+    printf("%x\n", y);
+}
